@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css";
 
 function SillyCaseApp() {
   const [inputText, setInputText] = useState("");
@@ -17,14 +18,18 @@ function SillyCaseApp() {
     setInputText(e.target.value);
   };
 
-  const handleCopyClick = () => {
-    navigator.clipboard.writeText(convertToSillyCase(inputText));
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 2000); // Hide message after 2 seconds
+  const handleCopyClick = async () => {
+    try {
+      await navigator.clipboard.writeText(convertToSillyCase(inputText));
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div>
       <h1>SillyCase Converter</h1>
       <textarea
         value={inputText}
@@ -35,10 +40,8 @@ function SillyCaseApp() {
       />
       <h2>Output:</h2>
       <p>{convertToSillyCase(inputText)}</p>
-      <button onClick={handleCopyClick} style={{ marginTop: "10px" }}>
-        Copy Text
-      </button>
-      {copySuccess && <p style={{ color: "green", marginTop: "10px" }}>Copied!</p>}
+      <button onClick={handleCopyClick}>Copy Text</button>
+      {copySuccess && <p className="copied-message">Copied!</p>}
     </div>
   );
 }
