@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function SillyCaseApp() {
   const [inputText, setInputText] = useState("");
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const convertToSillyCase = (text) => {
     return text
@@ -18,7 +19,8 @@ function SillyCaseApp() {
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(convertToSillyCase(inputText));
-    alert("Text copied to clipboard!");
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000); // Hide message after 2 seconds
   };
 
   return (
@@ -36,6 +38,7 @@ function SillyCaseApp() {
       <button onClick={handleCopyClick} style={{ marginTop: "10px" }}>
         Copy Text
       </button>
+      {copySuccess && <p style={{ color: "green", marginTop: "10px" }}>Copied!</p>}
     </div>
   );
 }
