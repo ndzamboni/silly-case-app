@@ -19,6 +19,7 @@ function SillyCaseApp() {
   };
 
   const handleCopyClick = async () => {
+    if (inputText.trim() === "") return; // Prevent copying empty text
     try {
       await navigator.clipboard.writeText(convertToSillyCase(inputText));
       setCopySuccess(true);
@@ -39,7 +40,7 @@ function SillyCaseApp() {
         cols="50"
       />
       <h2>Output:</h2>
-      <p>{convertToSillyCase(inputText)}</p>
+      <p className="output-text">{convertToSillyCase(inputText)}</p>
       <button onClick={handleCopyClick}>Copy Text</button>
       {copySuccess && <p className="copied-message">Copied!</p>}
     </div>
